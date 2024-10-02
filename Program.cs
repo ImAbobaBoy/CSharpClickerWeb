@@ -9,7 +9,7 @@ namespace CSharpClickerWeb
             builder.Services.AddHealthChecks();
 
             var app = builder.Build();
-
+            //test
             app.MapGet("/", () => "Hello World!");
             app.MapHealthChecks("health-check");
 

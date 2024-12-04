@@ -1,18 +1,26 @@
 ﻿@model AuthViewModel
 
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="bg-light flex-column p-5">
-        <form class="d-flex flex-column align-items-center" asp-action="Login" asp-controller="Auth" method="post">
-            <h4>Войти в аккаунт</h4>
-            <label>Имя пользователя 123</label>
-            <input class="form-control mx-auto m-2" type="text" asp-for="@Model.UserName" maxlength="30" />
-            <label>Пароль</label>
-            <input class="form-control mx-auto m-2" type="password" asp-for="@Model.Password" />
-            <input type="submit" class="btn btn-primary mx-auto" value="Войти в аккаунт" />
-            <div asp-validation-summary="All"></div>
-        </form>
+@section styles {
+    <link href="@Url.Content("~/css/loginRegister.css")" rel="stylesheet">
+}
 
-        <a class="mx-auto " asp-action="Register" asp-controller="Auth">Зарегистрироваться</a>
+<div class="full-screen">
+    <div class="d-flex justify-content-center align-items-center vh-100 main-content">
+        <div class="form-container">
+            <form class="d-flex flex-column align-items-center" asp-action="Login" asp-controller="Auth" method="post">
+                <h1>Войти в аккаунт</h1>
+                <label>Имя пользователя</label>
+                <input class="form-control mx-auto m-2" type="text" asp-for="@Model.UserName" maxlength="30" />
+                <label>Пароль</label>
+                <input class="form-control mx-auto m-2" type="password" asp-for="@Model.Password" />
+                <div class="login-register-container">
+                    <input type="submit" class="lr-button" value="Войти в аккаунт" />
+                    <a class="lr-button" asp-action="Register" asp-controller="Auth">Зарегистрироваться</a>
+                </div>
+                <div asp-validation-summary="All"></div>
+            </form>
+        </div>
     </div>
 </div>
+
 

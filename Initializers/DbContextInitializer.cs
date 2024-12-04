@@ -29,11 +29,11 @@ namespace CSharpClickerWeb.Initializers
 
         public static void InitializeDbContext(AppDbContext appDbContext)
         {
-            const string Boost1 = "Рудокоп";
-            const string Boost2 = "Призрак";
-            const string Boost3 = "Стражник";
-            const string Boost4 = "Маг огня";
-            const string Boost5 = "Рудный барон";
+            const string Boost1 = "Цири";
+            const string Boost2 = "Геральт";
+            const string Boost3 = "Весемир";
+            const string Boost4 = "Трисс";
+            const string Boost5 = "Йеннифэр";
 
             appDbContext.Database.Migrate();
 
@@ -41,10 +41,10 @@ namespace CSharpClickerWeb.Initializers
                 .ToArray();
 
             AddBoostIfNotExist(Boost1, price: 100, profit: 1);
-            AddBoostIfNotExist(Boost2, price: 500, profit: 15);
-            AddBoostIfNotExist(Boost3, price: 2000, profit: 60, isAuto: true);
-            AddBoostIfNotExist(Boost4, price: 10000, profit: 400);
-            AddBoostIfNotExist(Boost5, price: 100000, profit: 5000, isAuto: true);
+            AddBoostIfNotExist(Boost2, price: 100, profit: 15);
+            AddBoostIfNotExist(Boost3, price: 100, profit: 60, isAuto: true);
+            AddBoostIfNotExist(Boost4, price: 100, profit: 400);
+            AddBoostIfNotExist(Boost5, price: 100, profit: 5000, isAuto: true);
 
             appDbContext.SaveChanges();
 

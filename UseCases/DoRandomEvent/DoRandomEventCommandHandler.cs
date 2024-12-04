@@ -30,11 +30,21 @@ namespace CSharpClickerWeb.UseCases.DoRandomEvent
                 .Include(user => user.UserBoosts)
                 .ThenInclude(ub => ub.Boost)
                 .FirstAsync(user => user.Id == userId, cancellationToken);
-            var standartBoost = StandartBoosts.StandartBoostProperties.Where(c => c.Title == "Рудокоп");
+            var standartBoost = StandartBoosts.StandartBoostProperties["Рудокоп"];
+            var ev = new EventList().randomEvents[0];
             foreach (var boost in user.UserBoosts.Where(c => c.Boost.Title == "Рудокоп"))
             {
-                boost.Quantity = 0;
-                boost.CurrentPrice = standartBoost.FirstOrDefault().Price;
+                if (ev.BoostPriceChangeType == "+")
+                    boost.CurrentPrice += ev.BoostPriceChange;
+                if (ev.BoostPriceChangeType == "*")
+                    boost.CurrentPrice *= ev.BoostPriceChange;
+                if (ev.BoostPriceChangeType == "=")
+                    boost.CurrentPrice = ev.BoostPriceChange;
+                if (ev.BoostQuantityChangeType == "+")
+                    boost.Quantity += ev.BoostQuantityChange;
+                if (ev.BoostQuantityChangeType == "=")
+                    boost.Quantity = ev.BoostQuantityChange;
+                boost.Boost.IsAuto = ev.BoostIsAuto;
             }
 
             await appDbContext.SaveChangesAsync(cancellationToken);

@@ -34,7 +34,14 @@ namespace CSharpClickerWeb
 
             app.MapControllers();
             app.MapDefaultControllerRoute();
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Click123}");
+
             app.MapHealthChecks("health-check");
+
+
 
             app.Run();
         }
@@ -48,7 +55,7 @@ namespace CSharpClickerWeb
             services.AddMediatR(o => o.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
             services.AddAuthentication()
-                .AddCookie(o => o.LoginPath = "/account/login");
+                .AddCookie(o => o.LoginPath = "/account/login/");
             services.AddAuthorization();
             services.AddControllersWithViews();
 
@@ -56,6 +63,7 @@ namespace CSharpClickerWeb
             services.AddScoped<IAppDbContext, AppDbContext>();
 
             IdentityInitializer.AddIdentity(services);
+
             DbContextInitializer.AddAppDbContext(services);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using CSharpClickerWeb.Domain;
 using CSharpClickerWeb.Infrastructure.DataAccess;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
 namespace CSharpClickerWeb.Initializers
@@ -40,13 +41,64 @@ namespace CSharpClickerWeb.Initializers
             var existingBoosts = appDbContext.Boosts
                 .ToArray();
 
-            AddBoostIfNotExist(Boost1, price: 100, profit: 1);
-            AddBoostIfNotExist(Boost2, price: 100, profit: 15);
-            AddBoostIfNotExist(Boost3, price: 100, profit: 60, isAuto: true);
-            AddBoostIfNotExist(Boost4, price: 100, profit: 400);
-            AddBoostIfNotExist(Boost5, price: 100, profit: 5000, isAuto: true);
+            AddBoostIfNotExist(Boost1, price: StandartBoosts.StandartBoostProperties[Boost1].Price, 
+                profit: StandartBoosts.StandartBoostProperties[Boost1].Profit);
+            AddBoostIfNotExist(Boost2, price: StandartBoosts.StandartBoostProperties[Boost2].Price,
+                profit: StandartBoosts.StandartBoostProperties[Boost2].Profit);
+            AddBoostIfNotExist(Boost3, price: StandartBoosts.StandartBoostProperties[Boost3].Price,
+                profit: StandartBoosts.StandartBoostProperties[Boost3].Profit);
+            AddBoostIfNotExist(Boost4, price: StandartBoosts.StandartBoostProperties[Boost4].Price,
+                profit: StandartBoosts.StandartBoostProperties[Boost4].Profit);
+            AddBoostIfNotExist(Boost5, price: StandartBoosts.StandartBoostProperties[Boost5].Price,
+                profit: StandartBoosts.StandartBoostProperties[Boost5].Profit);
+
+
+            //AddRandomUsers();
 
             appDbContext.SaveChanges();
+
+            void AddRandomUsers()
+            {
+
+                List<string> UserNames =
+                [
+                    "GerwantFromFishia",
+                    "Balabol",
+                    "FanatSamoletov",
+                    "Lutik",
+                    "ClownFish",
+                    "BroSKosichkami",
+                    "Plotwa",
+                    "Bobr",
+                    "DrugNebes",
+                    "BillGates",
+                    "ElonMax"
+                ];
+
+                List<long> Scores =
+                [
+                    123423,
+                    987589347,
+                    20394,
+                    9783467285967,
+                    82394,
+                    19283,
+                    8493,
+                    9238,
+                    23,
+                    34534,
+                    2304775
+                ];
+
+                for (var i = 0; i < UserNames.Count; i++)
+                {
+                    appDbContext.Users.Add(new ApplicationUser
+                    {
+                        UserName = UserNames[i],
+                        RecordScore = Scores[i],
+                    });
+                }
+            }
 
             void AddBoostIfNotExist(string name, long price, long profit, bool isAuto = false)
             {

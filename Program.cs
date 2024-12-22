@@ -1,4 +1,4 @@
-using CSharpClickerWeb.Domain;
+ using CSharpClickerWeb.Domain;
 using CSharpClickerWeb.Infrastructure.Abstractions;
 using CSharpClickerWeb.Infrastructure.DataAccess;
 using CSharpClickerWeb.Infrastructure.Implementations;

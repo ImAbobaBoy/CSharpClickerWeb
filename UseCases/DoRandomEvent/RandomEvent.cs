@@ -11,17 +11,17 @@
         public int BoostQuantityChange { get; set; }
         public string BoostQuantityChangeType { get; set; }
 
-        public RandomEvent(string eventTitle, string eventDescription, string boostTitle, 
-            long boostPriceChange, string boostPriceChangeType, bool boostIsAuto, int boostQuantityChange, string boostQuantityChangeType)
-        {
-            EventTitle = eventTitle;
-            EventDescription = eventDescription;
-            BoostTitle = boostTitle;
-            BoostPriceChange = boostPriceChange;
-            BoostPriceChangeType = boostPriceChangeType;
-            BoostIsAuto = boostIsAuto;
-            BoostQuantityChange = boostQuantityChange;
-            BoostQuantityChangeType = boostQuantityChangeType;
-        }
+        //public RandomEvent(string eventTitle, string eventDescription, string boostTitle, 
+        //    long boostPriceChange, string boostPriceChangeType, bool boostIsAuto, int boostQuantityChange, string boostQuantityChangeType)
+        //{
+        //    EventTitle = eventTitle;
+        //    EventDescription = eventDescription;
+        //    BoostTitle = boostTitle;
+        //    BoostPriceChange = boostPriceChange;
+        //    BoostPriceChangeType = boostPriceChangeType;
+        //    BoostIsAuto = boostIsAuto;
+        //    BoostQuantityChange = boostQuantityChange;
+        //    BoostQuantityChangeType = boostQuantityChangeType;
+        //}
     }
 }

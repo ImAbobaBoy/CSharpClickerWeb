@@ -24,9 +24,9 @@ namespace CSharpClickerWeb.Contorllers
         }
 
         [HttpGet("leaderboard")]
-        public async Task<IActionResult> Leaderboard()
+        public async Task<IActionResult> Leaderboard(int page = 1)
         {
-            var leaderboard = await mediator.Send(new GetLeaderboardQuery());
+            var leaderboard = await mediator.Send(new GetLeaderboardQuery(page));
 
             return View(leaderboard);
         }

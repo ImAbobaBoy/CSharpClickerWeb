@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CSharpClickerWeb.Contorllers
 {
-    [Route("account")]
+    [Route("auth")]
     public class AuthController : Controller
     {
         private readonly IMediator mediator;
@@ -27,8 +27,6 @@ namespace CSharpClickerWeb.Contorllers
             }
             catch (ValidationException ex)
             {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("1323");
                 ModelState.AddModelError(string.Empty, ex.Message);
 
                 var viewModel = new AuthViewModel

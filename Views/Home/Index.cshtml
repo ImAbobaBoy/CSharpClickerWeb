@@ -6,6 +6,15 @@
 }
 
 <div class="full-screen">
+    <div id="random-event-modal" class="hidden">
+        <div class="modal-content">
+            <h2 id="event-title"></h2>
+            <p id="event-description"></p>
+            <div class="modal-timer">
+                <div class="modal-timer-bar"></div>
+            </div>
+        </div>
+    </div>
     <div class="m-3 avatar-container">
         <form asp-action="avatar" asp-controller="user" method="post" enctype="multipart/form-data">
             @if (Model.User.Avatar.Length == 0)
@@ -38,10 +47,10 @@
                 <p class="main-text">А мы расскажем <span id="profit_per_second">@Model.User.ProfitPerSecond</span></p>
                 <a class="main-text" asp-action="Leaderboard" asp-controller="User">Лидерборд</a>
             </div>
-            <button id="clickitem" class="click-item bg-transparent border-0 bonfire-click">
-                <img class="bonfire" src="~/bonfire.png" />
-            </button>
         </div>
+        <button id="clickitem" class="click-item bg-transparent border-0 bonfire-click">
+            <img class="bonfire" src="~/bonfire.png" />
+        </button>
     </div>
     <div class="boost-list">
         @foreach (var boost in Model.Boosts)

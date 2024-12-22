@@ -1,6 +1,7 @@
 ﻿using CSharpClickerWeb.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace CSharpClickerWeb.UseCases.Register
@@ -30,8 +31,12 @@ namespace CSharpClickerWeb.UseCases.Register
 
             if (!result.Succeeded)
             {
-                var errorString = string.Join(Environment.NewLine, result.Errors);
-                throw new ValidationException(errorString);
+                var errors = result.Errors;
+                foreach (var error in errors)
+                {
+                    var errorString = string.Join(Environment.NewLine, error.Description);
+                    throw new ValidationException(errorString);
+                }
             }
 
             return Unit.Value;

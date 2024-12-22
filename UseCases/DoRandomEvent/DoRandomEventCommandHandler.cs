@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CSharpClickerWeb.UseCases.DoRandomEvent
 {
-    public class DoRandomEventCommandHandler : IRequestHandler<DoRandomEventCommand, UserDto>
+    public class DoRandomEventCommandHandler : IRequestHandler<DoRandomEventCommand, EventDto>
     {
         private readonly ICurrentUserAccessor currentUserAccessor;
         private readonly IAppDbContext appDbContext;
@@ -23,28 +23,64 @@ namespace CSharpClickerWeb.UseCases.DoRandomEvent
             this.mapper = mapper;
         }
 
-        public async Task<UserDto> Handle(DoRandomEventCommand request, CancellationToken cancellationToken)
+        public async Task<EventDto> Handle(DoRandomEventCommand request, CancellationToken cancellationToken)
         {
             var userId = currentUserAccessor.GetCurrentUserId();
             var user = await appDbContext.ApplicationUsers
                 .Include(user => user.UserBoosts)
                 .ThenInclude(ub => ub.Boost)
                 .FirstAsync(user => user.Id == userId, cancellationToken);
-            var standartBoost = StandartBoosts.StandartBoostProperties["Рудокоп"];
-            var ev = new EventList().randomEvents[0];
-            foreach (var boost in user.UserBoosts.Where(c => c.Boost.Title == "Рудокоп"))
+            
+            var random = new Random();
+            int randomIndex = random.Next(10); 
+            var randomEvent = new EventList().randomEvents[randomIndex];
+            var standartBoost = StandartBoosts.StandartBoostProperties[randomEvent.BoostTitle];
+
+            foreach (var boost in user.UserBoosts.Where(c => c.Boost.Title == randomEvent.BoostTitle))
             {
-                if (ev.BoostPriceChangeType == "+")
-                    boost.CurrentPrice += ev.BoostPriceChange;
-                if (ev.BoostPriceChangeType == "*")
-                    boost.CurrentPrice *= ev.BoostPriceChange;
-                if (ev.BoostPriceChangeType == "=")
-                    boost.CurrentPrice = ev.BoostPriceChange;
-                if (ev.BoostQuantityChangeType == "+")
-                    boost.Quantity += ev.BoostQuantityChange;
-                if (ev.BoostQuantityChangeType == "=")
-                    boost.Quantity = ev.BoostQuantityChange;
-                boost.Boost.IsAuto = ev.BoostIsAuto;
+                switch (randomEvent.BoostPriceChangeType)
+                {
+                    case "+":
+                        boost.CurrentPrice += randomEvent.BoostPriceChange;
+                        break;
+                    case "-":
+                        boost.CurrentPrice -= randomEvent.BoostPriceChange;
+                        break;
+                    case "*":
+                        boost.CurrentPrice *= randomEvent.BoostPriceChange;
+                        break;
+                    case "/":
+                        boost.CurrentPrice /= randomEvent.BoostPriceChange;
+                        break;
+                    case "=":
+                        boost.CurrentPrice = randomEvent.BoostPriceChange;
+                        break;
+                    default:
+                        break;
+                }
+                
+                switch (randomEvent.BoostQuantityChangeType)
+                {
+                    case "+":
+                        boost.Quantity += randomEvent.BoostQuantityChange;
+                        break;
+                    case "-":
+                        boost.Quantity -= randomEvent.BoostQuantityChange;
+                        break;
+                    case "*":
+                        boost.Quantity *= randomEvent.BoostQuantityChange;
+                        break;
+                    case "/":
+                        boost.Quantity /= randomEvent.BoostQuantityChange;
+                        break;
+                    case "=":
+                        boost.Quantity = randomEvent.BoostQuantityChange;
+                        break;
+                    default:
+                        break;
+                }
+
+                boost.Boost.IsAuto = randomEvent.BoostIsAuto;
             }
 
             await appDbContext.SaveChangesAsync(cancellationToken);
@@ -54,7 +90,9 @@ namespace CSharpClickerWeb.UseCases.DoRandomEvent
             userDto.ProfitPerClick = user.UserBoosts.GetProfit();
             userDto.ProfitPerSecond = user.UserBoosts.GetProfit(shouldCalculateAutoBoosts: true);
 
-            return userDto;
+            var eventDto = mapper.Map<EventDto>(randomEvent);
+
+            return eventDto;
         }
     }
 }

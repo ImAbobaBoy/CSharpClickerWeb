@@ -3,6 +3,8 @@ using CSharpClickerWeb.Infrastructure.Abstractions;
 using CSharpClickerWeb.Infrastructure.DataAccess;
 using CSharpClickerWeb.Infrastructure.Implementations;
 using CSharpClickerWeb.Initializers;
+using CSharpClickerWeb.UseCases.DoRandomEvent;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,10 +37,6 @@ namespace CSharpClickerWeb
             app.MapControllers();
             app.MapDefaultControllerRoute();
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Click123}");
-
             app.MapHealthChecks("health-check");
 
 
@@ -55,7 +53,8 @@ namespace CSharpClickerWeb
             services.AddMediatR(o => o.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
             services.AddAuthentication()
-                .AddCookie(o => o.LoginPath = "/account/login/");
+                .AddCookie(o => o.LoginPath = "/auth/login/");
+
             services.AddAuthorization();
             services.AddControllersWithViews();
 
@@ -63,6 +62,9 @@ namespace CSharpClickerWeb
             services.AddScoped<IAppDbContext, AppDbContext>();
 
             IdentityInitializer.AddIdentity(services);
+
+            services.ConfigureApplicationCookie(options =>
+                { options.LoginPath = "/auth/login"; });
 
             DbContextInitializer.AddAppDbContext(services);
         }

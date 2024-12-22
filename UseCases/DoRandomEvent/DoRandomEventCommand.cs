@@ -4,5 +4,5 @@ using MediatR;
 
 namespace CSharpClickerWeb.UseCases.DoRandomEvent
 {
-    public record DoRandomEventCommand(int BoostId) : IRequest<UserDto>;
+    public record DoRandomEventCommand(int BoostId) : IRequest<EventDto>;
 }

@@ -16,7 +16,7 @@ namespace CSharpClickerWeb.Contorllers
         }
 
         [HttpPost("random")]
-        public async Task<UserDto> DoEvent(DoRandomEventCommand command)
+        public async Task<EventDto> DoEvent(DoRandomEventCommand command)
             => await mediator.Send(command);
     }
 }
